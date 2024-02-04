@@ -1,0 +1,76 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+html{
+    font-family: Roboto,sans-serif;
+    font-size: 62.5%;
+}
+
+
+.rule{
+    width: 1px;
+    height: 30px;
+}
+
+.panel{
+    font-size: 2.5rem;
+    border: solid;
+    height: 100px;
+}
+
+#letras{
+    border: solid;
+    width: 600px;
+    overflow: hidden;
+    text-align: left;
+
+
+    font-size: 5rem;
+    letter-spacing: 0.5rem;
+    font-weight: bold;
+}
+
+#letras span{
+    font-size: 5rem;
+    letter-spacing: 0.5rem;
+    font-weight: bold;
+}
+
+#teclado{
+    width: 800px;
+    margin: 0 auto;
+    color: #fff;
+}
+
+.fila{
+    margin-bottom: 5px;
+}
+
+#fila_2{
+    margin-left: 67px;
+}
+
+#fila_3{
+    margin-left: 78px;
+}
+
+
+.tecla{
+    padding: 5px;
+    display: inline-table;
+    width: 40px;
+    height: 40px;
+    background-color:#242424;
+    font-size: 1.9rem;
+}
+
+.fila #shift_1, .fila #shift_2{
+    width: 100px;
+}
+
+#fila_5 #Space{
+    width: 300px;
+    margin-left: 200px;
+}
