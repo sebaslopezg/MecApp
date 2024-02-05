@@ -21,6 +21,7 @@ html{
 }
 
 #letras{
+    padding: 5px;
     border: solid;
     width: 600px;
     overflow: hidden;
