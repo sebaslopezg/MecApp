@@ -1,7 +1,7 @@
 let keyboardColor = "#242424"
 let keyActivatedColor = "red"
 let keyNextColor = "blue"
-let selectedArray = formatearTexto(leccion_2)
+let selectedArray = formatearTexto(leccion_1)
 let index = 0
 let errores = 0;
 let setError;
@@ -68,7 +68,7 @@ document.addEventListener("keydown", (e)=>{
 
     if(!gameOver){
         for(let i in teclas[e.code]){
-            teclas[e.code][i].style.backgroundColor = keyActivatedColor
+            //teclas[e.code][i].style.backgroundColor = keyActivatedColor
     
             //modificar /revisar
     
