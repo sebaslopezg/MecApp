@@ -1,7 +1,8 @@
 let keyboardColor = "#242424"
 let keyActivatedColor = "red"
 let keyNextColor = "blue"
-let selectedArray = formatearTexto(leccion_1)
+let selectedArray =""
+let arrayIsSelected = false
 let index = 0
 let errores = 0;
 let setError;
@@ -10,100 +11,87 @@ const letras = document.querySelector("#letras")
 const errorDisplay = document.querySelector("#error_display")
 const limiteCaracteresPantalla = 27
 
-//peuqeño testeo :::
+//Eventos
 
-//formatearTexto(leccion_2)
-
-//console.log(formatearTexto(leccion_2))
-
-function formatearTexto(texto){
-    let arrData, arrBase = new Array, respuesta = new Array;
-    let limite, espacio = false
-    arrData = texto.split(" ")
-    limite = (arrData.length + arrData.length)-1
-
-    let index = 0;
-    for(let i = 0; i < limite; i++){
-
-        if(!espacio){
-            arrBase.push(arrData[index])
-            index++
-            espacio = true
-        }else{
-            arrBase.push(" ")
-            espacio = false
+document.addEventListener("click", (e) =>{
+    try{
+        if (gameOver) {
+            reset()
         }
+        let target = e.target.id
+        selectedArray = formatearTexto(lecciones[target])
+        selectArray()
+        arrayIsSelected = true
+        nextKey()
+
+    }catch{
+
     }
+})
 
-    let arrayTemporal
-    arrBase.forEach( element =>{
-        if (element == " ") {
-            respuesta.push(" ")
-        }else{
-            arrayTemporal = element.split("")
-            arrayTemporal.forEach( e => {
-                respuesta.push(e)
-            })
-        }
-            
-    })
-
-    return respuesta;
-}
-
-//cuando se selecciona una leccion / mostrar 27 caracteres
-selectedArray.forEach((element, i) => {
-    letras.value += element
-
-});
-
-
-nextKey()
+//otro pequeño test
 
 document.addEventListener("keydown", (e)=>{
 
-    if (!cronometroActivado) {
-        activarCronometro()
-    }
-
-    if(!gameOver){
-        for(let i in teclas[e.code]){
-            //teclas[e.code][i].style.backgroundColor = keyActivatedColor
-    
-            //modificar /revisar
-    
-            if(teclas[e.code][i].textContent == selectedArray[index]){
-                updateLetras(index)
-                index++;
-                letras.style.borderColor = "black"
-                setError = false;
-            }else{
-                setError = true;
-            } 
+    if (arrayIsSelected) {
+        if (!cronometroActivado) {
+            activarCronometro()
         }
     
-        if (letras.value == "") {
-            letras.value = "Terminaste!";
-            gameOver = true;
-            clearInterval(cronometroCall)
-            porcentajeDeErrores()
-        }
-    }else{
-
+        if(!gameOver){
+            for(let i in teclas[e.code]){
+                //teclas[e.code][i].style.backgroundColor = keyActivatedColor
+        
+                //modificar /revisar
+        
+                if(teclas[e.code][i].textContent == selectedArray[index]){
+                    updateLetras(index)
+                    index++;
+                    letras.style.borderColor = "black"
+                    setError = false;
+                }else{
+                    setError = true;
+                } 
+            }
+        
+            if (letras.value == "") {
+                letras.value = "Terminaste!"
+                gameOver = true
+                clearInterval(cronometroCall)
+                porcentajeDeErrores()
+            }
+        }else{
+    
+        }   
     }
 
 })
 
 document.addEventListener("keyup", (e) =>{
-    resetColor(e.code)
-    nextKey()
 
-    if(setError){
-        letras.style.borderColor = "red"
-        errores++;
-        errorDisplay.innerHTML = "| Errores : " + errores + " |"
+    if (arrayIsSelected) {
+        resetColor(e.code)
+        nextKey()
+    
+        if(setError){
+            letras.style.borderColor = "red"
+            errores++;
+            errorDisplay.innerHTML = "| Errores : " + errores + " |"
+        }    
     }
+
 })
+
+//FUNCIONES
+
+function selectArray(){
+    letras.value = "";
+    selectedArray.forEach((element, i) => {
+        letras.value += element
+    
+    })
+}
+
 
 function resetColor(code){
     for(let x in teclas[code]){
@@ -174,4 +162,49 @@ function porcentajeDeErrores(){
     let displayPorcentaje = document.querySelector("#porcentajeErrores")
     porcentaje = parseInt(errores * 100 / selectedArray.length) 
     displayPorcentaje.textContent = `| Porcentaje de errores: ${porcentaje}%` 
+}
+
+function formatearTexto(texto){
+    let arrData, arrBase = new Array, respuesta = new Array;
+    let limite, espacio = false
+    arrData = texto.split(" ")
+    limite = (arrData.length + arrData.length)-1
+
+    let index = 0;
+    for(let i = 0; i < limite; i++){
+
+        if(!espacio){
+            arrBase.push(arrData[index])
+            index++
+            espacio = true
+        }else{
+            arrBase.push(" ")
+            espacio = false
+        }
+    }
+
+    let arrayTemporal
+    arrBase.forEach( element =>{
+        if (element == " ") {
+            respuesta.push(" ")
+        }else{
+            arrayTemporal = element.split("")
+            arrayTemporal.forEach( e => {
+                respuesta.push(e)
+            })
+        }
+            
+    })
+
+    return respuesta;
+}
+
+function reset(){
+    arrayIsSelected = false
+    letras.value = "";
+    selectedArray =""
+    gameOver = false
+    index = 0
+    errores = 0;
+    cronometroDisplay.textContent = `00:00:00`
 }
